@@ -18,7 +18,7 @@ class LoginController {
       final responseData = jsonDecode(response.body);
       if (responseData['status'] == true) {
         print("Login Berhasil: ${responseData['user']}");
-        return "Login Berhasil: ${responseData['user']}";
+        return "Login Berhasil: ${responseData['message']}";
       } else {
         print("Login Gagal: ${responseData['error']}");
         return "Login Gagal: ${responseData['error']}";
