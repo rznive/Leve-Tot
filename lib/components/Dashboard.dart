@@ -8,12 +8,6 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Lorem Ipsum')),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('lib/assets/bg-page3.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: Center(
           child: Text(
             'Lorem ipsum dolor sit amet!',
