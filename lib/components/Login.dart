@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quranconnect/controllers/LoginController.dart';
+import 'package:quranconnect/components/Register.dart';
 import 'package:quranconnect/components/Dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,13 +13,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
-  String _loginMessage = ''; // Variabel untuk menyimpan pesan login
+  String _loginMessage = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lorem Ipsum'),
+        title: const Text('Login'),
       ),
       backgroundColor: const Color(0xFFEBEBEB),
       body: Center(
@@ -28,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // TextField untuk Email
               Container(
                 width: 300,
                 padding: const EdgeInsets.all(16),
@@ -45,8 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-
-              // TextField untuk Password
               Container(
                 width: 300,
                 padding: const EdgeInsets.all(16),
@@ -64,8 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-
-              // Tombol Sign In
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
@@ -73,16 +69,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
-                      // Logika untuk login dan menampilkan pesan
+                      if (emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty) {
+                        setState(() {
+                          _loginMessage =
+                              "Email dan Password tidak boleh kosong!";
+                        });
+                        return;
+                      }
                       String result = await LoginController.login(
                           emailCtrl.text, passwordCtrl.text);
                       setState(() {
-                        _loginMessage = result; // Menyimpan hasil pesan login
+                        _loginMessage = result;
                       });
 
-                      // Jika login berhasil, navigasikan ke Dashboard
                       if (result.contains("Berhasil")) {
-                        // Navigasi ke halaman Dashboard
+                        await Future.delayed(const Duration(seconds: 3));
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -94,10 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Menampilkan pesan login
               if (_loginMessage.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -111,6 +109,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  // Navigasi ke halaman pendaftaran
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const RegisterScreen(), // Halaman Daftar
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Belum punya akun? Daftar di sini",
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold),
+                ),
+              )
             ],
           ),
         ),
